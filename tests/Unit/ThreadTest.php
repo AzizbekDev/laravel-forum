@@ -11,13 +11,13 @@ class ThreadTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
     }
 
     /** @test */
     function a_thread_has_replies()
     {
-        $thread = factory('App\Thread')->create();
+        $thread = create('App\Thread');
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $thread->replies);
     }
 
@@ -30,7 +30,7 @@ class ThreadTest extends TestCase
     /** @test */
     public function a_thread_can_add_a_reply()
     {
-        $thread = factory('App\Thread')->create();
+        $thread = create('App\Thread');
         $thread->addReply([
             'body' => 'Foobar',
             'user_id' => 1
