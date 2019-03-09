@@ -1,19 +1,18 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">From Threads</div>
-                <div class="card-body">
-                    @foreach($threads as $thread)
-                        <article>
-                            <a href="{{ $thread->path() }}"><h4>{{ $thread->title }}</h4></a>
-                            <div class="body"><p>{{ $thread->body }}</p></div>
-                        </article><hr>
-                    @endforeach
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            @foreach($threads as $thread)
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                </div>
+                <div class="panel-body">
+                    <div class="body"><p>{{ $thread->body }}</p></div>                    
                 </div>
             </div>
+            @endforeach
         </div>
     </div>
 </div>
