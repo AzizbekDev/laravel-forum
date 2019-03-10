@@ -1,13 +1,19 @@
-***< Following advanced Laravel series "Let's Build a Forum with TDD" on Laracasts.***
-`Setup fresh laravel Project`
-#~ laravel new form
-`Initial Database Setup With Seeding`
-// create model Thread with <migrations> and <resourcefull_controller>
-#~ php artisan make:model Thread -mr 
-// create model Reply with <migrations> and <controller>
-#~ php artisan make:model Reply -mc 
-`Edit migrations` <create_threads_table.php>
-/*** *****************************************************/
+> Lesson-1 Following advanced Laravel series "Let's Build a Forum with TDD" on Laracasts
+===
+### 1) Setup fresh laravel Project `laravel new form`
+### 2) Initial Database Setup With Seeding
+---
+create model Thread with `migrations` and `controller` with resource. 
+```
+php artisan make:model Thread -mr
+```
+create model Reply with `migrations` and `controller`
+```
+php artisan make:model Reply -mc 
+```
+### 3) edit migrations `create_threads_table.php`
+---
+```
 public function up(){
     Illuminate\Support\Facades\Schema::create(‘threads’, function(Blueprint $table){
         $table→bigIncrements(‘id’);
@@ -17,10 +23,10 @@ public function up(){
         $table→timestamps(); 
     });
 }
-/***************************************************** ***/
-
-`Edit migrations` <create_replies_table.php>
-/*** *****************************************************/
+```
+### 4) edit migrations `create_replies_table.php`
+---
+```
 public function up(){
 	Illuminate\Support\Facades\Schema::create(‘replies’, function(Blueprint $table){
         $table->bigIncrements('id');
@@ -30,24 +36,28 @@ public function up(){
         $table->timestamps(); 
     });
 }
-/***************************************************** ***/
-
-`Edit .env file` <env>
-/*** *****************************************************/
+```
+### 5) edit env file `.env`
+---
+```
 DB_DATABASE=form
 DB_USERNAME=root
 DB_PASSWORD=123
-/***************************************************** ***/
-
-`create new `<database>` called ‘form’ using cli || workbanch || phpmyadmin.`
-#~ mysql -uroot -p
-#~ mysql > create database form;
-#~ php artisan migrate 
+```
+### 6) create new `database` called `form` using cli || workbanch || phpmyadmin
+---
+```
+mysql -uroot -p
+mysql > create database form;
+php artisan migrate 
 // results must be successfully created table threads and replies
-
-#~ php artisan make:factory ModelFactory
-`Edit modelFactory` <database/factories/ModelFactory.php>
-/*** *****************************************************/
+```
+### 7) edit modelFactory `database/factories/ModelFactory.php` run
+---
+```
+php artisan make:factory ModelFactory
+```
+```
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 $factory->define(App\User::class, function (Faker $faker) {
@@ -79,13 +89,14 @@ $factory->define(App\Reply::class, function($faker){
         'body' => $faker->paragraph
     ];
 });
-/***************************************************** ***/
-
-`run factories for threads and replies via tinker`
-#~	php artisan tinker
-#~	>>> $threads = factory('App\Thread',50)->create()
-#~	>>> $threads->each(function($thread){ factory('App\Reply',10)->create(['thread_id' => $thread->id]); });
- 
+```
+### 8) run factories for threads and replies via tinker
+---
+```
+php artisan tinker
+>>> $threads = factory('App\Thread',50)->create()
+>>> $threads->each(function($thread){ factory('App\Reply',10)->create(['thread_id' => $thread->id]); });
 //after this command we insert fake data to threads and replies tables 
-<notes:>Delete all data form database tables.
-#~ php artisan migrate:refresh
+```
+> Notes: Delete all data form database tables.
+`php artisan migrate:refresh`

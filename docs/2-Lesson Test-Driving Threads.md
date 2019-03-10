@@ -1,8 +1,8 @@
-***< Test-Driving Threads.***
-`create test file using artisan commands`
-#~ php artisan make:test ThreadsTest
-`Edit test files` <tests/Features/ThreadsTest.php>
-/*** *****************************************************/
+> Lesson-2 Test-Driving Threads
+===
+### 1)create test file using artisan commands `php artisan make:test ThreadsTest` and edit test files`tests/Features/ThreadsTest.php
+---
+```
 <?php
 namespace Tests\Feature;
 use Tests\TestCase;
@@ -22,30 +22,32 @@ class ThreadsTest extends TestCase
         $this->get($thread->path())
         ->assertSee($thread->title);
     }
-/***************************************************** ***/
-
-`Edit phpunit file` <phpunit.xml>
-/*** *****************************************************/
+```
+### 2) edit phpunit file `phpunit.xml`
+---
+```
 <php>
-...
-<server name="DB_CONNECTION" value="sqlite"/>
-<server name="DB_DATABASE" value=":memory:"/>
-...
+    ...
+    <server name="DB_CONNECTION" value="sqlite"/>
+    <server name="DB_DATABASE" value=":memory:"/>
+    ...
 </php>
-/***************************************************** ***/
-<notes:> after setup phpunit configurations we have installed `sqlite` && `phpunit`
-for ubuntu cli commands
-#~ sudo apt install phpunit
-#~ sudo apt-get install php7.2-sqlite
-
-`Edit routes` <routes/web.php>
-/*** *****************************************************/
+```
+> Notes: after setup phpunit configurations we have installed `sqlite` && `phpunit` for ubuntu cli commands
+`sudo apt install phpunit`
+---
+`sudo apt-get install php7.2-sqlite`
+---
+### 3) edit routes `routes/web.php`
+---
+```
 Route::get('/threads', 'ThreadsController@index');
 Route::get('/threads/{thread}', 'ThreadsController@show');
-/***************************************************** ***/
+```
 
-`Edit controller` <app/Http/Controllers/ThreadsController.php>
-/*** *****************************************************/
+### 4) edit controller `app/Http/Controllers/ThreadsController.php`
+---
+```
 public function index()
 {
     $threads = Thread::latest()->get();
@@ -56,13 +58,12 @@ public function show(Thread $thread)
 {
     return view('threads.show', compact('thread'));
 }
-/***************************************************** ***/
+```
+### 5) run auth command for creating layouts folders `php artisan make:auth`
 
-`Run auth command for creating layouts folders`
-#~ php artisan make:auth
-
-`Create views threads.index` <resources/views/threads/index.blade.php>
-/*** *****************************************************/
+### 6) create views threads.index `resources/views/threads/index.blade.php`
+---
+```
 @extends('layouts.app')
 @section('content')
 <div class="container">
@@ -83,11 +84,10 @@ public function show(Thread $thread)
     </div>
 </div>
 @endsection
-
-/***************************************************** ***/
-
-`Create views threads.show` <resources/views/threads/show.blade.php>
-/*** *****************************************************/
+```
+###  7) create views threads.show `resources/views/threads/show.blade.php`
+---
+```
 @extends('layouts.app')
 @section('content')
 <div class="container">
@@ -106,13 +106,11 @@ public function show(Thread $thread)
     </div>
 </div>
 @endsection
-
-/***************************************************** ***/
-
-
-`Edit model Thread` <app/Thread.php>
-/*** *****************************************************/
+```
+### 8) edit model Thread `app/Thread.php`
+---
+```
 public function path(){
     return '/threads/'.$this->id;
 }
-/***************************************************** ***/
+```

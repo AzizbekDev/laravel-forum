@@ -1,25 +1,26 @@
-***< A User May Respond to Threads.***
-1) `create reply.blade.php`
-/*** *****************************************************/
+> Lesson-4 A User May Respond to Threads.
+===
+### 1) create reply.blade.php
+---
+```
 <div class="card">
     <div class="card-header">
         <i><a href="#">{{ $reply->owner->name }} </a></i>said {{ $reply->created_at->diffForHumans() }}...
     </div>
     <div class="card-body">{{ $reply->body }}</div>
 </div>
-/***************************************************** ***/
-
-2) `edit show.blade.php` 
-/*** *****************************************************/
+```
+### 2) edit show.blade.php 
+---
+```
 @foreach($thread->replies as $reply)
     @include('threads/reply')
 @endforeach
-
-/***************************************************** ***/
-
-3)create new ThreadTest for unit folder
-#~ php artisan make:test ThreadTest --unit
-/*** *****************************************************/
+```
+### 3) create new ThreadTest for unit folder
+---
+`php artisan make:test ThreadTest --unit`
+```
 <?php
 namespace Tests\Unit;
 use Tests\TestCase;
@@ -38,20 +39,20 @@ class ThreadTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $thread->replies);
     }
 }
-/***************************************************** ***/
-
-4)edit Thread model
-/*** *****************************************************/
-    use App\User;
-    ...
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-/***************************************************** ***/
-
-5) edit threads/show.blade.php
-/*** *****************************************************/
+```
+### 4)edit Thread model
+---
+```
+use App\User;
+...
+public function creator()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
+```
+### 5) edit threads/show.blade.php
+---
+```
 ...
 <div class="card-header">
     <a href="#">
@@ -59,21 +60,16 @@ class ThreadTest extends TestCase
     </a> posted: {{ $thread->title }}
 </div>
 ...
-
-/***************************************************** ***/
-
-6)create new PraticipateInForum test file
-#~ php artisan make:test PraticipateInForum
-
-7)edit test/Feature/PraticipateInForumTest.php
-/*** *****************************************************/
+```
+### 6)create new PraticipateInForum test file
+`php artisan make:test PraticipateInForum`
+### 7)edit test/Feature/PraticipateInForumTest.php
+---
+```
 <?php
-
 namespace Tests\Feature;
-
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-
 class ParticipateInForumTest extends TestCase
 {
     use DatabaseMigrations;
@@ -87,42 +83,37 @@ class ParticipateInForumTest extends TestCase
     function an_authenticated_user_may_participate_in_forum_threads()
     {
         $this->be($user = factory('App\User')->create());
-
         $thread = factory('App\Thread')->create();
-
         $reply = factory('App\Reply')->make();
-
         $this->post('/threads/'.$thread->id.'/replies',$reply->toArray());
-
         $this->get($thread->path())
             ->assertSee($reply->body);
     }
 }
-/***************************************************** ***/
-
-7)edit routes/web.php
-/*** *****************************************************/
-    Route::post('/threads/{thread}/replies', 'RepliesController@store');
-/***************************************************** ***/
-
-8)edit contollers/RepliesController.php
-/*** *****************************************************/
-    use App\Thread;
-
-    public function __construct(){
-        $this->middleware('auth');
-    }
-    public function store(Thread $thread){
-        $thread->addReply([
-            'body' => request('body'),
-            'user_id' => auth()->id()
-        ]);
-        return back();
-    }
-/***************************************************** ***/
-
-9) edit tests/Unit/ThreadTest.php
-/*** *****************************************************/
+```
+# 7)edit routes/web.php
+---
+```
+Route::post('/threads/{thread}/replies', 'RepliesController@store');
+```
+### 8)edit contollers/RepliesController.php
+---
+```
+use App\Thread;
+public function __construct(){
+    $this->middleware('auth');
+}
+public function store(Thread $thread){
+    $thread->addReply([
+        'body' => request('body'),
+        'user_id' => auth()->id()
+    ]);
+    return back();
+}
+```
+### 9) edit tests/Unit/ThreadTest.php
+---
+```
 /** @test */
 public function a_thread_can_add_a_reply(){
     $thread = factory('App\Thread')->create();
@@ -132,23 +123,23 @@ public function a_thread_can_add_a_reply(){
     ]);
     $this->assertCount(1, $thread->replies);
 }
-
-/***************************************************** ***/
-
-
-10) edit app/Thread.php
-/*** *****************************************************/
+```
+### 10) edit app/Thread.php
+---
+```
 protected $guarded = [];
-
 public function addReply($reply){
     $this->replies()->create($reply);
 }
-/***************************************************** ***/
-
-10) edit app/Reply.php
-/*** *****************************************************/
+```
+### 10) edit app/Reply.php
+---
+```
 protected $guarded = [];
-/***************************************************** ***/
-<notes:>
-1)running single test `phpunit --filter method_name`
-#~ phpunit --filter a_thread_has_replies
+```
+
+> Note:
+running single test `phpunit --filter method_name`
+```
+phpunit --filter a_thread_has_replies
+```

@@ -1,7 +1,8 @@
-***< A Thread Can Have Replies.***
-1) rename and edit ThreadTest file `tests/Feature/ThreadTest.php` => `ReadThreadTest.php`
-/*** *****************************************************/
-
+> Lesson-3 A Thread Can Have Replies
+===
+### 1) rename and edit ThreadTest file `tests/Feature/ThreadTest.php` => `ReadThreadTest.php`
+---
+```
 public function setUp(){
     parent::setUp();
     $this->thread = factory('App\Thread')->create();
@@ -19,12 +20,11 @@ function a_user_can_read_replies_that_are_associated_with_a_thread(){
 
     $this->get('/threads/'.$this->thread->id)->assertSee($reply->body);
 }
-/***************************************************** ***/
-
-2)edit threads/show.blade.php
-/*** *****************************************************/
+```
+### 2)edit threads/show.blade.php
+---
+```
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -49,38 +49,31 @@ function a_user_can_read_replies_that_are_associated_with_a_thread(){
     </div>
 </div>
 @endsection
-
-/***************************************************** ***/
-
-3)edit app/Threads.php
-/*** *****************************************************/
+```
+### 3)edit app/Threads.php
+---
+```
     use App\Reply;
     ...
     public function replies(){
         return $this->hasMany(Reply::class);
     }
-
-/***************************************************** ***/
-
-4)edit app/Reply.php
-/*** *****************************************************/
-    use App\User;
+```
+### 4)edit app/Reply.php
+---
+```
+use App\User;
     ...
-    public function owner(){
-        return $this->belongsTo(User::class, 'user_id');
-    }
+public function owner(){
+    return $this->belongsTo(User::class, 'user_id');
+}
+```
+### 5) create UnitTest `php artisan make:test ReplyTest --unit` run via cli and edit test/Unit/ReplyTest.php
+---
+```
 
-/***************************************************** ***/
-
-
-5) create UnitTest
-#~ php artisan make:test ReplyTest --unit
-`edit test/Unit/ReplyTest.php`
-/*** *****************************************************/
 <?php
-
 namespace Tests\Unit;
-
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -93,5 +86,4 @@ class ReplyTest extends TestCase
         $reply = factory('App\Reply')->create();
         $this->assertInstanceOf('App\User', $reply->owner);
     }
-
-/***************************************************** ***/
+```
