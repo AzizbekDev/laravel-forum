@@ -1,4 +1,4 @@
-> Lesson-3 A Thread Can Have Replies
+Lesson-3 A Thread Can Have Replies
 ===
 ### 1) rename and edit ThreadTest file `tests/Feature/ThreadTest.php` => `ReadThreadTest.php`
 ---

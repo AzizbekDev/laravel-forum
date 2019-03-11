@@ -1,4 +1,4 @@
-> Lesson-5 The Reply Forum.
+Lesson-5 The Reply Forum.
 ===
 ### 2) edit show.blade.php
 ---

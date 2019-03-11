@@ -1,4 +1,4 @@
-> Lesson-4 A User May Respond to Threads.
+Lesson-4 A User May Respond to Threads.
 ===
 ### 1) create reply.blade.php
 ---

@@ -1,6 +1,6 @@
 > Lesson-7 Let's Make Some Testing Helpers
 ===
-## 1)edit composer.json
+### 1)edit composer.json
 in the autoload-dev object after psr-4 add below lines
 ---
 ```

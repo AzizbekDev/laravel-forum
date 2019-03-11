@@ -1,4 +1,4 @@
-> Lesson-6 A user may publish threads
+Lesson-6 A user may publish threads
 ===
 ### 1) create new test file CreateThreadsTest.php
 ---

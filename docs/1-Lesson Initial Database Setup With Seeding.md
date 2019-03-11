@@ -1,4 +1,4 @@
-> Lesson-1 Following advanced Laravel series "Let's Build a Forum with TDD" on Laracasts
+Lesson-1 Following advanced Laravel series "Let's Build a Forum with TDD" on Laracasts
 ===
 ### 1) Setup fresh laravel Project `laravel new form`
 ### 2) Initial Database Setup With Seeding

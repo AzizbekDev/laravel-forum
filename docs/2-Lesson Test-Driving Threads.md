@@ -1,4 +1,4 @@
-> Lesson-2 Test-Driving Threads
+Lesson-2 Test-Driving Threads
 ===
 ### 1)create test file using artisan commands `php artisan make:test ThreadsTest` and edit test files`tests/Features/ThreadsTest.php
 ---
