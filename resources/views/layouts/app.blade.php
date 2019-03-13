@@ -40,6 +40,9 @@
                         <li>
                             <a class="nav-link" href="/threads">All threads <span class="sr-only">(current)</span></a>
                         </li>
+                        <li>
+                            <a class="nav-link" href="/threads/create">New threads <span class="sr-only">(current)</span></a>
+                        </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Channels <span class="caret"></span></a>
