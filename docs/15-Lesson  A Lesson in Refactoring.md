@@ -7,22 +7,18 @@ use App\Filters\ThreadFilters;
 ...
 public function index(Channel $channel, ThreadFilters $filters)
 {
-    $threads = Thread::filter($filters)->get();
-    
+    $threads = $this->getThreads($channel, $filters);
     return view('threads.index',compact('threads'));
 }
 ...
-protected function getThreads(Channel $channel) // App\Queries\ThreadQuery
+protected function getThreads(Channel $channel, ThreadFilters $filters)
 {
+    $threads = Thread::latest()->filter($filters);
     if($channel->exists){
-        $threads = $channel->threads()->latest();
-    }else{
-        $threads = Thread::latest();
+        $threads->where('channel_id', $channel->id);
     }
-    $threads = $threads->get();
-    return $threads;
+    return $threads->get();
 }
-
 ```
 ### 2) create and edit `app/Filters/Filters.php`
 ---
@@ -34,12 +30,8 @@ use Illuminate\Http\Request;
 
 abstract class Filters
 {
-    protected $request, $builder;
+    protected $request, $builder, $filters = [];;
 
-    /**
-     * Filters constructor
-     * @param Request $request
-     */
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -48,10 +40,17 @@ abstract class Filters
     public function apply($builder)
     {
         $this->builder = $builder;
-        if($this->request->has('by')){
-            $this->by($this->request->by);
+        foreach($this->getFilters() as $filter => $value){
+            if(method_exists($this, $filter)){
+                $this->$filter($value);
+            }
         }
         return $this->builder;
+    }
+
+    public function getFilters(){
+        $filters = array_intersect(array_keys($this->request->all()), $this->filters);
+        return $this->request->only($filters);
     }
 }
 ```
@@ -65,11 +64,8 @@ use App\User;
 
 class ThreadFilters extends Filters
 {
-    /**
-     * Filter The Query by a given a username
-     * @param string $username
-     * @return mixed
-     */
+    protected $filters = ['by'];
+
     protected function by($username)
     {
         $user = User::where('name', $username)->firstOrFail();
@@ -80,7 +76,10 @@ class ThreadFilters extends Filters
 ### 4) edit and edit `app/Thread.php`
 ---
 ```
-public function scopeFilter($query, $filters)
+use App\Filters\ThreadFilters;
+use Illuminate\Database\Eloquent\Builder;
+...
+public function scopeFilter($query, ThreadFilters $filters)
 {
     return $filters->apply($query);
 }

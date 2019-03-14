@@ -5,10 +5,27 @@ use Illuminate\Http\Request;
 
 abstract class Filters
 {
-    protected $request, $builder;
+    /**
+     * @var Request
+     */
+    protected $request;
+    /**
+     * The Eloquent builder.
+     *
+     * @var \Illuminate\Database\Eloquent\Builder
+     */
+    protected $builder;
 
     /**
-     * Filters constructor
+     * Registered filters to operate upon.
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
+     * Create a new ThreadFilters instance.
+     *
      * @param Request $request
      */
     public function __construct(Request $request)
@@ -16,12 +33,30 @@ abstract class Filters
         $this->request = $request;
     }
 
+    /**
+     * Apply the filters.
+     *
+     * @param  Builder $builder
+     * @return Builder
+     */
     public function apply($builder)
     {
         $this->builder = $builder;
-        if($this->request->has('by')){
-            $this->by($this->request->by);
+        foreach($this->getFilters() as $filter => $value){
+            if(method_exists($this, $filter)){
+                $this->$filter($value);
+            }
         }
         return $this->builder;
+    }
+
+    /**
+     * Fetch all relevant filters from the request.
+     *
+     * @return array
+     */
+    public function getFilters(){
+        $filters = array_intersect(array_keys($this->request->all()), $this->filters);
+        return $this->request->only($filters);
     }
 }
