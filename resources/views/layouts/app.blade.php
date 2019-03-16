@@ -12,8 +12,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        body {
+            padding-bottom: 100px;
+        }
+    </style>
 </head>
-<body style="padding-bottom:100px">
+<body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -57,6 +62,7 @@
                              @foreach ($channels as $channel)
                                  <li><a href="/threads/{{ $channel->slug }}">{{ $channel->name }}</a></li>
                              @endforeach
+                                <li><a href="/threads?popular=1">Popular All Times</a></li>
                             </ul>
                         </li>
                     </ul>
