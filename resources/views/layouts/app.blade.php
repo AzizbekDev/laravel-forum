@@ -50,11 +50,13 @@
                                  @if(auth()->check())
                                     <li><a class="nav-link" href="/threads?by={{ auth()->user()->name }}">My threads <span class="sr-only">(current)</span></a></li>
                                  @endif
+                                 <li><a href="/threads?popular=1">Popular All Times</a></li>
                             </ul>
                         </li>
                         <li>
                             <a class="nav-link" href="/threads/create">New threads <span class="sr-only">(current)</span></a>
                         </li>
+                    
                         <li class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Channels <span class="caret"></span></a>
@@ -62,7 +64,6 @@
                              @foreach ($channels as $channel)
                                  <li><a href="/threads/{{ $channel->slug }}">{{ $channel->name }}</a></li>
                              @endforeach
-                                <li><a href="/threads?popular=1">Popular All Times</a></li>
                             </ul>
                         </li>
                     </ul>
