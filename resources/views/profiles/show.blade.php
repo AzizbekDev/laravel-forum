@@ -12,7 +12,8 @@
             @foreach ($threads as $thread)
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="#">{{ $thread->creator->name }}</a> posted: {{ $thread->title }}
+                    <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a> posted: 
+                    <a href="{{ $thread->path() }}">{{ $thread->title }} </a>
                     <div class="pull-right">
                         {{ $thread->created_at->diffForHumans() }}
                     </div>
