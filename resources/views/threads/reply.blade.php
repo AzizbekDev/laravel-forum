@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a href="#">
+        <a href="/profile/{{ $reply->owner->name }}">
             {{ $reply->owner->name }}
         </a> said {{ $reply->created_at->diffForHumans() }}...
         <div class="pull-right">
