@@ -5,9 +5,16 @@
             <div class="col-md-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                            <a href="/profile/{{ $thread->creator->name }}">
+                            <a href="{{ route('profile', $thread->creator) }}">
                                 {{ $thread->creator->name }}
                         </a> posted: {{ $thread->title }}
+                        <div class="pull-right">
+                            <form method="POST" action="{{ $thread->path() }}">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                            </form>
+                        </div>
                     </div>
                     <div class="panel-body">
                         {{ $thread->body }}
